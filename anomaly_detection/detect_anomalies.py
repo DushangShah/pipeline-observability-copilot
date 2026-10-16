@@ -1,8 +1,13 @@
 import pandas as pd
 import psycopg2
+import os
 
 conn = psycopg2.connect(
-    host="localhost", port=5433, dbname="pipeline_db", user="pipeline", password="pipeline"
+    host=os.environ.get("DB_HOST", "localhost"),
+    port=5433,
+    dbname="pipeline_db",
+    user="pipeline",
+    password="pipeline",
 )
 
 df = pd.read_sql("SELECT * FROM orders_per_minute ORDER BY event_minute", conn)
